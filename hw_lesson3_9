@@ -1,0 +1,29 @@
+#3.9.Найти максимальный элемент среди минимальных элементов столбцов матрицы.
+
+import random
+
+size_ = int(input("введите количество строк матрицы"))
+size__ = int(input("введите количество столбцов матрицы"))
+
+matrix = [[random.randint(1, 10) for _ in range(size_)] for _ in range(size__)]
+print(matrix)
+
+min_glob = []
+min_glob.extend(matrix[0])
+for line in matrix:
+
+    print(('{:4d} ' * len(line)).format(*line))
+    i = 0
+    for j in line:
+        if j < min_glob[i]:
+            min_glob[i] = j
+        i += 1
+print(min_glob)
+
+def max_min(min_glob):
+    largest_number = 0
+    for num in min_glob:
+        if num > largest_number:
+            largest_number = num
+    print(largest_number)
+max_min(min_glob)

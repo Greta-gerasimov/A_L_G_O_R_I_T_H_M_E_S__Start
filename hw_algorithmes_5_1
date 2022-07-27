@@ -1,0 +1,38 @@
+
+#5.1.Пользователь вводит данные о количестве предприятий, их наименования и прибыль за четыре квартала для каждого предприятия.
+#Программа должна определить среднюю прибыль 
+#(за год для всех предприятий) и отдельно вывести наименования предприятий, чья прибыль выше среднего и ниже среднего.
+
+
+
+from collections import namedtuple
+
+new_buro = namedtuple('new_buro', ['name', 'profit'])
+all_buroes = []
+total_profit = 0
+num = int(input('input the quantity of all buroes:\n'))
+
+
+
+for i in range(1, num + 1):
+  name = input('input name of buro:\n')
+  profit = int(input('input profit: \n'))
+  buro = new_buro(name=name,profit=profit)
+
+  all_buroes.append(buro)
+  total_profit += profit
+
+mean_profit = total_profit // num
+print(f'average annual profit is: {mean_profit}')
+
+from collections import defaultdict
+
+dict_ = defaultdict(list)
+for k,v in all_buroes:
+  dict_[k].append(v)
+  if v > mean_profit:
+    print(f'the profit of {k} is above average({mean_profit}): {v}' )
+  elif v < mean_profit: 
+    print(f'the profit of {k} is  below average({mean_profit}): {v}')
+  elif v == mean_profit:
+    print(f'the profit of {k} is equal average({mean_profit}): {v}')

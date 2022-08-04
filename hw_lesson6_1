@@ -1,0 +1,77 @@
+import sys
+
+
+def show_size(x, level=0):
+
+    size_par = sys.getsizeof(x)
+    print('\t' * level, f'type={type(x)}, size={size_par}, object={x}')
+    if hasattr(x, '__iter__'):
+        if hasattr(x, 'items'):
+            for key, value in x.items():
+                show_size(key, level + 1)
+                size_par = size_par + sys.getsizeof(key)
+                show_size(value, level + 1)
+                size_par = size_par + sys.getsizeof(value)
+        elif not isinstance(x, str):
+            for item in x:
+                show_size(item, level + 1)
+                size_par = size_par + sys.getsizeof(item)
+    return size_par
+
+#how much memory does it take:
+
+#В диапазоне натуральных чисел от 2 до 99 определить,
+# сколько из них кратны каждому из чисел в диапазоне от 2 до 9
+
+#var1
+a = [0]*8
+for i in range(2,100):
+    for j in range(2,10):
+        if i % j == 0:
+            a[j-2] += 1
+i = 0
+while i < len(a):
+    print(i+2, ' - ', a[i])
+    i += 1
+
+
+sum_member = sys.getsizeof(a)
+print('В программе задействовано байт памяти: {}'.format(sum_member))
+
+#В программе задействовано байт памяти: 136
+
+#var2
+
+import numpy as np
+b = np.arange(2, 10, 1)
+
+for j in b:
+    a = [i for i in range(2, 100) if i % j == 0]
+    print(f'числу {j}  кратно {len(a)}  чисел')
+
+sum_member = sys.getsizeof(a)+sys.getsizeof(b)
+#В программе задействовано байт памяти: 368
+
+#var3
+
+arr_result = [0] * 8
+def get_res():
+
+    for i in range(2, 100):
+        for j in range(2, 10):
+            if i % j == 0:
+                arr_result[j-2] +=1
+                # return
+    for i, item in enumerate(arr_result, start=2):
+        print(f'{i}, {item}')
+
+get_res()
+
+#В программе задействовано байт памяти: 304
+
+#ВЫВОД: размер в трех случаях не сильно различается,так как генерируются списки фиксированной длины. Но различия все же есть. 
+больше всего памяти занимает вариант с библиотекой  numpy, возможно по причине того, что формируется новый список a, 
+плюс возможно из-за использования самой библиотеки, ведь где-то нужно хранить ссылку на нее;
+#в третьем варианте кода, функция проходит по списку дважды.
+#к сожалению pycharm у меня отвалился поэтому ничего подробнее прокомментировать не имею возможности.
+
